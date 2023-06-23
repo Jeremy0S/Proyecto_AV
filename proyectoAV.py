@@ -2,12 +2,20 @@
 import sympy
 import math
 import numpy as np
+from sympy import integrate
+
+#PARA QUE EL PROGRAMA FUNCIONE CORRECTAMENTE ES NECESARIO TENER INSTALADO PREVIAMENTE 
+#UN COMPILADOR DE PYTHON JUNTO CON LAS LIBRERIAS sympy, math y numpy
+#ESTAS PUEDEN SER AÑADIDAR USANDO POR MEDIO DEL CMD EL COMANDO python -m pip install "nombre del paquete" 
+#PARA COMPILAR EN EL CMD EL COMANDO ES py proyectoAV.py o python proyectoAV.py
+
 #-----------------------------------------CONJUNTO DE FUNCIONES---------------------------------------
 
 arr = []
 vres = []
 aux = []
 
+#FUNCINON QUE SUMA N VECTORES DE TAMAÑO M
 def sumav2(vres,arr,eV):
 	for n in range(len(arr)):
 		for m in range(eV):
@@ -15,11 +23,13 @@ def sumav2(vres,arr,eV):
 			vres[m] = s
 	return vres
 
+#FUNCION PARA LLENAR UN VECTOR DE CEROS
 def iCeros(vres, eV):
 	for x in range(eV):
 			vres.append(0)
 	return vres
 
+#FUNCION QUE RESTA N VECTORES DE TAMAÑO M
 def resta(vres,arr,eV):
 	for n in range(len(arr)):
 		for m in range(eV):
@@ -31,6 +41,7 @@ def resta(vres,arr,eV):
 				vres[m] = s
 	return vres
 
+#FUNCION RESTA NECESARIA PARA EL DETERMINANTE Y PRODUCTO CRUZ
 def restaC(vres2,vres,eV):
 	j = eV-2
 	for x in range(eV):
@@ -45,12 +56,14 @@ def restaC(vres2,vres,eV):
 		vres2.append(s)
 	return vres2
 
+#FUNCION QUE CALCULA EL PRODUCTO INTERNO DE UN VECTOR
 def pInterno(ivector):
 	for x in range(len(ivector)):
 		s = ivector[x]*ivector[x]
 		ivector[x] = s
 	return ivector
 
+#FUNCION QUE CALCULA EL PRODUCTO PUNTO DE 2 VECTORES DE TAMAÑO N
 def pPunto(arr,eV,op):
 	s = 0
 	if op == 1:
@@ -65,6 +78,7 @@ def pPunto(arr,eV,op):
 		s = arr[0][x] * arr[1][x] + s
 	return s
 
+#FUNCION QUE MULTIPLICA A UN VECTOR POR CAULQUIER ESCALAR
 def mEscalar(arr, esc):
 	m = 0
 	for x in range(len(arr)):
@@ -72,6 +86,7 @@ def mEscalar(arr, esc):
 		arr[x] = m
 	return arr
 
+#FUNCION QUE CALCULA EL MODULO DEL PRODUCTO PUNTO
 def mpPunto(arr, vres, eV):
 	s=0
 	for x in range(eV):
@@ -85,6 +100,7 @@ def mpPunto(arr, vres, eV):
 	s = pow(s,1/2)
 	return s
 
+#FUNCION QUE CALCULA EL MODULO DE UN VECTOR
 def mVector(arr,op):
 	s=0
 	for x in range(len(arr)):
@@ -97,6 +113,7 @@ def mVector(arr,op):
 			arr[z] = arr[z],"/",s
 		return arr
 
+#FUNCION QUE CALCULA EL MODULO DE N VECTORES
 def mVector2(arr, s, op):
 	res = 1
 	for x in range(len(arr)):
@@ -110,6 +127,7 @@ def mVector2(arr, s, op):
 			res = s[y] * res
 		return res
 
+#FUNCION QUE CALCULA EL DETERMINANTE/PRODUCTO CRUZ DE 3 VECTORES DE TAMAÑO 3
 def determinante(arr, vres, op):
 	vres = [[0] * eV for i in range(len(arr)-1)]
 	vres2 = []
@@ -159,6 +177,7 @@ def determinante(arr, vres, op):
 
 	return s
 
+#FUNCION QUE CALCULA EL TRIPLE PRODUCTO PUNTO DE UNA FUNCION
 def tProducto(arr):
 	p1 = 0
 	p2 = 0
@@ -170,6 +189,7 @@ def tProducto(arr):
 			vres.append(0)
 	return resta(vres,reOrd(arr),len(arr))
 
+#FUNCION QUE REORDENA UN ARREGLO DE VECTORES NECESARIO PARA EL TRIPLE PRODUCTO CRUZ
 def reOrd(arr):
 	for x in range(len(arr)):
 			aux.append(0)
@@ -180,6 +200,7 @@ def reOrd(arr):
 	arr.pop(len(arr)-1)
 	return arr
 
+#FUNCION QUE EVALUA UNA FUNCION EN UN PUNTO DETERMINADO
 def eFun(fEv, f, p):
 	x, y, z = sympy.symbols('x y z', real=True)
 	t = sympy.symbols('t')
@@ -194,6 +215,7 @@ def eFun(fEv, f, p):
 
 	return fEv
 
+#FUNCION QUE DERIVA UNA FUNCION Y SUSTITUYE LAS VARIABLES POR UN PUNTO
 def dFun(dF, p, f):
 	x, y, z = sympy.symbols('x y z', real=True)
 	t = sympy.symbols('t')
@@ -209,6 +231,7 @@ def dFun(dF, p, f):
 
 	return dF
 
+#FUNCION PARA CALCULAR EL GRADIENTE DE UNA FUNCION
 def fGrad(dF, f, op):
 	x, y, z = sympy.symbols('x y z', real=True)
 	sym = [x, y, z]
@@ -219,6 +242,7 @@ def fGrad(dF, f, op):
 		dF[i] = f.diff(sym[i])
 	return dF
 
+#FUNCION QUE CALCULA EL ROTACIONAL DE UNA FUNCION
 def fRot(fT, dF):
 	x1 = len(dF) - 1
 	x2 = 0
@@ -233,6 +257,7 @@ def fRot(fT, dF):
 			x1 = x1 + 1
 	return fT
 
+#FUNCION QUE CALCULA EL Df DE UNA FUNCION
 def fDf(Df, dF):
 	Df = [[0] * len(dF) for i in range(len(dF))]
 	x, y, z = sympy.symbols('x y z', real=True)
@@ -249,333 +274,352 @@ def fDf(Df, dF):
 
 	return 0
 
+#FUNCION QUE SUSTITUYE UNA FUNCION POR OTRA
+def rCadena(dF):
+	x, y, z = sympy.symbols('x y z', real=True)
+	t = sympy.symbols('t', real=True)
+	sym = [x, y, z, t] 
+
+	for j in range(len(dF)):
+		for i in range(len(dF)):
+			dF[i] = dF[i].subs(sym[j],c[j])
+	return dF
+
+#FUNCION QUE DERIVA UNA FUNCION
+def dCadena(dF):
+	for j in range(len(dF)):
+		dF[j] = dF[j].diff(t)
+
+	return dF
+	
 
 #-------------------------------------------MENU DE OPCIONES-------------------------------------
+op = 100
+while (op!=0):
 
-print("\nCalculadora de OPERACIONES VECTORIALES\n")
+	print("\nCalculadora de OPERACIONES VECTORIALES\n")
 
-print("1. Operaciones con 1 vector de tamano n")
-print("2. Operaciones con n vectores de tamano m")
-print("3. Operaciones con 2 vectores de tamano n")
-print("4. Operaciones con 2 vectores de tamano 3")
-print("5. Operaciones con 3 vectores de tamano 3\n")
+	print("1. Operaciones con 1 vector de tamano n")
+	print("2. Operaciones con n vectores de tamano m")
+	print("3. Operaciones con 2 vectores de tamano n")
+	print("4. Operaciones con 2 vectores de tamano 3")
+	print("5. Operaciones con 3 vectores de tamano 3\n")
 
-print("Calculo Diferencial e Integral Vectorial\n")
+	print("Calculo Diferencial e Integral Vectorial\n")
 
-print("6. Operaciones con curvas ya definidas")
-print("7. Operaciones con funciones de R3->R ya definidas")
-print("8. Operaciones con funciones de R3->R3 ya definidas\n")
+	print("6. Operaciones con curvas ya definidas")
+	print("7. Operaciones con funciones de R3->R ya definidas")
+	print("8. Operaciones con funciones de R3->R3 ya definidas")
+	print("9. Integral de linea\n")
 
-op = int(input("Escriba el numero de la operacion que desea realizar: "))
+	print("0. SALIR\n")
+
+	op = int(input("Escriba el numero de la operacion que desea realizar: "))
 
 #-------------------------------------------OPCION 1-------------------------------------
+	if (op == 1):
 
-if (op == 1):
+		#EJEMPLO DE ENTRADA: [2,3,5,1,5,1,3,5]
 
-	nV = 1
-	eV = int(input("Ingrese el numero de elementos del vector: "))
+		nV = 1
+		eV = int(input("Ingrese el numero de elementos del vector: "))
 
-	for x in range(eV):
-			arr.append(0)
-
-	print("\nIngrese los valores del vector: \n")
-	for m in range(eV):
-		arr[m] = int(input("Valor: "))
-
-	print("\nVector: ",arr)
-
-	print("\n- Operaciones disponibles:\n 1. Multiplicacion por un escalar\n 2. Producto Interno\n 3. Vector Unitario\n")
-	op1 = int(input("Escriba el numero de la operacion que desea realizar: "))
-
-	if op1 == 1:
-		esc = int(input("\nIngrese el escalar: "))
-		print("\nEl vector resultante es: ",mEscalar(arr,esc))
-
-	if op1 == 2:
-		print("\nEl producto interno del vector es: ",pInterno(arr))
-
-	if op1 == 3:
-		opt = 1
 		for x in range(eV):
-			vres.append(0)
-		print("\nEl vector unitario es: ", mVector(arr,opt))
+				arr.append(0)
 
-#-------------------------------------------OPCION 2-------------------------------------
-
-if (op == 2):
-
-	nV = int(input("\nIngrese el numero de vectores: "))
-	eV = int(input("Ingrese el numero de elementos de los vectores: "))
-
-	arr = [[0] * eV for i in range(nV)]
-
-	for n in range(nV):
-		print("\nIngrese los valores del vector ",n+1,": \n")
+		print("\nIngrese los valores del vector: \n")
 		for m in range(eV):
-			arr[n][m] = int(input("Valor: "))
+			arr[m] = int(input("Valor: "))
 
-	print("\n")
+		print("\nVector: ",arr)
 
-	for z in range(nV):
-		print("Vector ",z+1,": ",arr[z])
+		print("\n- Operaciones disponibles:\n 1. Multiplicacion por un escalar\n 2. Producto Interno\n 3. Vector Unitario\n")
+		op1 = int(input("Escriba el numero de la operacion que desea realizar: "))
 
-	print("\n- Operaciones disponibles:\n  \n  1. Suma de Vectores\n  2. Resta de vectores\n")
-	op2 = int(input("Escriba el numero de la operacion que desea realizar: "))
+		if op1 == 1:
+			esc = int(input("\nIngrese el escalar: "))
+			print("\nEl vector resultante es: ",mEscalar(arr,esc))
 
-	if op2 == 1:
-		print("\nEl vector resultante es: ",sumav2(iCeros(vres, eV),arr,eV))
+		if op1 == 2:
+			print("\nEl producto interno del vector es: ",pInterno(arr))
 
-	if op2 == 2:
-		print("\nEl vector resultante es: ",resta(iCeros(vres, eV),arr,eV))
+		if op1 == 3:
+			opt = 1
+			for x in range(eV):
+				vres.append(0)
+			print("\nEl vector unitario es: ", mVector(arr,opt))
 
-#-------------------------------------------OPCION 3-------------------------------------
+	#-------------------------------------------OPCION 2-------------------------------------
 
-if (op == 3):
+	if (op == 2):
 
-	nV = 2
-	eV = int(input("\nIngrese el numero de elementos de los vectores: "))
+		#EJEMPLO DE ENTRADA: [[4,12,5],[6,12,6],[90,12,5]]
 
-	arr = [[0] * eV for i in range(nV)]
+		nV = int(input("\nIngrese el numero de vectores: "))
+		eV = int(input("Ingrese el numero de elementos de los vectores: "))
 
-	for n in range(nV):
-		print("\nIngrese los valores del vector ",n+1,": \n")
-		for m in range(eV):
-			arr[n][m] = int(input("Valor: "))
+		arr = [[0] * eV for i in range(nV)]
 
-	print("\n")
+		for n in range(nV):
+			print("\nIngrese los valores del vector ",n+1,": \n")
+			for m in range(eV):
+				arr[n][m] = int(input("Valor: "))
 
-	for z in range(nV):
-		print("Vector ",z+1,": ",arr[z])
+		print("\n")
 
-	print("\n- Operaciones disponibles: \n 1. Producto Punto\n 2. Modulo del producto Punto\n 3. Angulo entre vectores\n")
-	op2 = int(input("Escriba el numero de la operacion que desea realizar: "))
+		for z in range(nV):
+			print("Vector ",z+1,": ",arr[z])
 
-	if op2 == 1:
-		print("\nEl producto punto de los vectores es: ",pPunto(arr,eV,0))
+		print("\n- Operaciones disponibles:\n  \n  1. Suma de Vectores\n  2. Resta de vectores\n")
+		op2 = int(input("Escriba el numero de la operacion que desea realizar: "))
 
-	if op2 == 2:
-		print("\nEl modulo del producto punto es: ","{:.2f}".format(mpPunto(arr,vres,eV)))
+		if op2 == 1:
+			print("\nEl vector resultante es: ",sumav2(iCeros(vres, eV),arr,eV))
 
-	if op2 == 3:
-		s = []
-		ppv = 0
-		mppv = 0
-		op = 1
-		ppv = pPunto(arr,eV,0)
-		mppv = mVector2(arr,iCeros(s,len(arr)),op)
+		if op2 == 2:
+			print("\nEl vector resultante es: ",resta(iCeros(vres, eV),arr,eV))
 
-		print("\nEl angulo entre los vectores es: ","{:.2f}".format(math.degrees(math.acos(ppv/mppv))),"°")
+	#-------------------------------------------OPCION 3-------------------------------------
 
-#-------------------------------------------OPCION 4-------------------------------------
+	if (op == 3):
 
-if (op == 4):
+		#EJEMPLO DE ENTRADA: [[12,5,3,51,5,12],[6,12,7,2,4,6]]
 
-	nV = 3
-	eV = 3
+		nV = 2
+		eV = int(input("\nIngrese el numero de elementos de los vectores: "))
 
-	arr = [[1] * eV for i in range(nV)]
+		arr = [[0] * eV for i in range(nV)]
 
-	for n in range(nV-1):
-		print("\nIngrese los valores del vector ",n+1,": \n")
-		for m in range(eV):
-			arr[n+1][m] = int(input("Valor: "))
+		for n in range(nV):
+			print("\nIngrese los valores del vector ",n+1,": \n")
+			for m in range(eV):
+				arr[n][m] = int(input("Valor: "))
 
-	print("\n")
+		print("\n")
 
-	for z in range(nV-1):
-		print("Vector ",z+1,": ",arr[z+1])
+		for z in range(nV):
+			print("Vector ",z+1,": ",arr[z])
 
-	print("\n- Operaciones disponibles:\n  1. Producto Cruz\n  2. Volumen del Paralelogramo\n")
-	op3 = int(input("Escriba el numero de la operacion que desea realizar: "))
+		print("\n- Operaciones disponibles: \n 1. Producto Punto\n 2. Modulo del producto Punto\n 3. Angulo entre vectores\n")
+		op2 = int(input("Escriba el numero de la operacion que desea realizar: "))
 
-	if op3 == 1:
-		op = 1
-		vres = [[0] * eV for i in range(nV-1)]
-		print("\nEl producto cruz es: ",determinante(arr,vres,op))
+		if op2 == 1:
+			print("\nEl producto punto de los vectores es: ",pPunto(arr,eV,0))
 
-	if op3 == 2:
-		op = 2
-		print("\nEl volumen del paralelogramo es de: ","{:.2f}".format(determinante(arr,vres,op)), "Unidades cuadradas")
+		if op2 == 2:
+			print("\nEl modulo del producto punto es: ","{:.2f}".format(mpPunto(arr,vres,eV)))
 
-#-------------------------------------------OPCION 5-------------------------------------
+		if op2 == 3:
+			s = []
+			ppv = 0
+			mppv = 0
+			op = 1
+			ppv = pPunto(arr,eV,0)
+			mppv = mVector2(arr,iCeros(s,len(arr)),op)
 
-if (op == 5):
+			print("\nEl angulo entre los vectores es: ","{:.2f}".format(math.degrees(math.acos(ppv/mppv))),"°")
 
-	nV = 3
-	eV = 3
+	#-------------------------------------------OPCION 4-------------------------------------
 
-	arr = [[0] * eV for i in range(nV)]
+	if (op == 4):
 
-	for n in range(nV):
-		print("\nIngrese los valores del vector ",n+1,": \n")
-		for m in range(eV):
-			arr[n][m] = int(input("Valor: "))
+		#EJEMPLO DE ENTRADA: [[1,5,2],[7,1,2],[12,2,3]]
 
-	print("\n")
+		nV = 3
+		eV = 3
 
-	for z in range(nV):
-		print("Vector ",z+1,": ",arr[z])
+		arr = [[1] * eV for i in range(nV)]
 
-	print("\n- Operaciones disponibles:\n  1. Triple Producto Escalar\n  2. Volumen de un Paralelepipedo\n  3. Triple Producto Vectorial\n")
-	op4 = int(input("Escriba el numero de la operacion que desea realizar: "))
+		for n in range(nV-1):
+			print("\nIngrese los valores del vector ",n+1,": \n")
+			for m in range(eV):
+				arr[n+1][m] = int(input("Valor: "))
 
-	if op4 == 1:
-		print("\nEl triple producto escalar es: ",determinante(arr,vres,0))
+		print("\n")
 
-	if op4 == 2:
-		print("\nEl volumen del paralelepipedo es de: ",abs(determinante(arr,vres,0)), "Unidades cubicas")
+		for z in range(nV-1):
+			print("Vector ",z+1,": ",arr[z+1])
 
-	if op4 == 3:
-		print("\nEl triple producto vectorial de la forma V1x(V2xV3) es: ",tProducto(arr))
+		print("\n- Operaciones disponibles:\n  1. Producto Cruz\n  2. Volumen del Paralelogramo\n")
+		op3 = int(input("Escriba el numero de la operacion que desea realizar: "))
 
-#-------------------------------------------OPCION 6-------------------------------------
+		if op3 == 1:
+			op = 1
+			vres = [[0] * eV for i in range(nV-1)]
+			print("\nEl producto cruz es: ",determinante(arr,vres,op))
 
-if (op == 6):
+		if op3 == 2:
+			op = 2
+			print("\nEl volumen del paralelogramo es de: ","{:.2f}".format(determinante(arr,vres,op)), "Unidades cuadradas")
 
-	t = sympy.symbols('t')
-	f = [t**2, 3*t**4, t]
-	f2 = t**2
-	p = [2]
-	rEv = []
-	fAux = []
-	fE = 0
-	sym = ['x', 'y', 'z']
+	#-------------------------------------------OPCION 5-------------------------------------
 
-	print("\nSe trabaja con la curva c(t): ",f)
+	if (op == 5):
 
-	print("\n- Operaciones disponibles con la curva:\n\n  1. Vector Tangente a la Curva\n  2. Ecuaciones parametricas de la recta tangente en un punto\n  3. Aceleracion del vector velocidad de la curva\n")
-	op2 = int(input("Escriba el numero de la operacion que desea realizar: "))
+		#EJEMPLO DE ENTRADA: [[1,5,2],[7,1,2],[12,2,3]]
 
-	if op2 == 1:
-		for x in range(len(f)):
-			f[x] = f[x].diff(t)
+		nV = 3
+		eV = 3
 
-		print("\nEl Vector Tangente a la curva es: ",f)
+		arr = [[0] * eV for i in range(nV)]
 
-	if op2 == 2:
+		for n in range(nV):
+			print("\nIngrese los valores del vector ",n+1,": \n")
+			for m in range(eV):
+				arr[n][m] = int(input("Valor: "))
 
-		for x in range(len(f)):
-			dFun(fAux, p, f[x])
+		print("\n")
 
-		mEscalar(fAux, t)
-		iCeros(rEv, len(f))
+		for z in range(nV):
+			print("Vector ",z+1,": ",arr[z])
 
-		for x in range(len(f)):
-			rEv[x] = eFun(fE, f[x], p)
+		print("\n- Operaciones disponibles:\n  1. Triple Producto Escalar\n  2. Volumen de un Paralelepipedo\n  3. Triple Producto Vectorial\n")
+		op4 = int(input("Escriba el numero de la operacion que desea realizar: "))
 
-		print("\nLas ecuaciones parametricas de la recta tangente evaluada en un punto son : \n")
-		for x in range(len(f)):
-			print(" ",sym[x], " = ",rEv[x], " + ", fAux[x]) 
+		if op4 == 1:
+			print("\nEl triple producto escalar es: ",determinante(arr,vres,0))
 
-	if op2 == 3:
-		for x in range(len(f)):
-			f[x] = f[x].diff(t,t)
+		if op4 == 2:
+			print("\nEl volumen del paralelepipedo es de: ",abs(determinante(arr,vres,0)), "Unidades cubicas")
 
-		print("\nLa aceleracion del vector velocidad es: ",f)
+		if op4 == 3:
+			print("\nEl triple producto vectorial de la forma V1x(V2xV3) es: ",tProducto(arr))
 
-#-------------------------------------------OPCION 7-------------------------------------
+	#-------------------------------------------OPCION 6-------------------------------------
 
-if (op == 7):
+	if (op == 6):
 
-	x, y, z = sympy.symbols('x y z', real=True)
-	#f = 3*x*y + z**2 -4
-	f = x**2 + y**4 +5*x*y
-	#p = [1,1,1]
-	p = [1,2]
-	dF = []
-	v = [1,3,5]
-	fT = []
-	fEv = 0
+		#EJEMPLO DE ENTRADA (DENTRO DEL CODIGO): f = [t**2, 3*t**4, t]
 
-	if len(p) == 3:
-		dF2 = [x - p[0], y - p[1], z - p[2]]
-	else:
-		dF2 = [x - p[0], y - p[1]]
+		t = sympy.symbols('t')
+		f = [t**2, 3*t**4, t]
+		f2 = t**2
+		p = [2]
+		rEv = []
+		fAux = []
+		fE = 0
+		sym = ['x', 'y', 'z']
 
-	print("\nSe trabaja con funcion f: ",f)
+		print("\nSe trabaja con la curva c(t): ",f)
 
-	print("\n- Operaciones disponibles con la funcion vectorial:\n  \n  1. Gradiente de la Funcion\n  2. Plano Tangente a la funcion R3->R3 \n  3. Plano Tangente a la funcion R2->R3\n  4. Mayor tasa de cambio de la funcion\n  5. Tasa de cambio en direccion de un vector\n")
-	op2 = int(input("Escriba el numero de la operacion que desea realizar: "))
+		print("\n- Operaciones disponibles con la curva:\n\n  1. Vector Tangente a la Curva\n  2. Ecuaciones parametricas de la recta tangente en un punto\n  3. Aceleracion del vector velocidad de la curva\n")
+		op2 = int(input("Escriba el numero de la operacion que desea realizar: "))
 
-	if op2 == 1:
-		print("\nEl gradiente de la funcion es: ",fGrad(iCeros(dF, len(p)), f, 0))
+		if op2 == 1:
+			for x in range(len(f)):
+				f[x] = f[x].diff(t)
 
-	if op2 == 2:
-		fT = [dFun(dF,p,f), dF2]
-		print("El plano tangente a la funcion es: ",pPunto(fT, len(dF), 0)," = 0")
+			print("\nEl Vector Tangente a la curva es: ",f)
 
-	if op2 == 3:
-		fT = [dFun(dF,p,f), dF2]
-		print("El plano tangente a la funcion es z = ", eFun(fEv,f,p) + pPunto(fT, len(dF2), 0))
+		if op2 == 2:
 
-	if op2 == 4:
-		print("\nLa funcion crece mas rapido en la direccion: ",dFun(dF,p,f))
+			for x in range(len(f)):
+				dFun(fAux, p, f[x])
 
-	if op2 == 5:
-		fT = [dFun(dF,p,f), v]
-		print("\nLa tasa de cambio de la funcion f(x,y,z) en direccion del vector: ",v," es: ",pPunto(fT, len(v), 0))
+			mEscalar(fAux, t)
+			iCeros(rEv, len(f))
 
-#-------------------------------------------OPCION 8-------------------------------------
+			for x in range(len(f)):
+				rEv[x] = eFun(fE, f[x], p)
 
-if (op == 8):
+			print("\nLas ecuaciones parametricas de la recta tangente evaluada en un punto son : \n")
+			for x in range(len(f)):
+				print(" ",sym[x], " = ",rEv[x], " + ", fAux[x]) 
 
-	x, y, z = sympy.symbols('x y z', real=True)
-	sym = [x, y, z] 
-	dF = [3*x*y, 4*z*x**2, 5*z**3]
-	c = [3*t**2, 4*t, t**3]
-	f = 0
-	p = [1,1,1]
-	v = [1,3,5]
-	fT = []
-	x1 = len(dF) - 1
-	x2 = 0
-	Df = []
+		if op2 == 3:
+			for x in range(len(f)):
+				f[x] = f[x].diff(t,t)
 
-	#REGLA DE LA CADENA
-	#dF[1] = dF[1].diff(x).subs(x,t+t**2)
-	#dF[1] = dF[1].diff(t).subs(z,t)
+			print("\nLa aceleracion del vector velocidad es: ",f)
 
-	print("\nSe trabaja con funcion f: ",dF)
+	#-------------------------------------------OPCION 7-------------------------------------
 
-	print("\n- Operaciones disponibles con la funcion vectorial:\n  \n  1. Divergencia de la Funcion\n  2. Rotacional de la funcion\n  3. Df de una funcion\n  4. Regla de la cadena\n")
-	op2 = int(input("Escriba el numero de la operacion que desea realizar: "))
+	if (op == 7):
 
-	if op2 == 1:
-		print("\nLa divergencia de la funcion es: ",fGrad(dF, f, 1))
+		#EJEMPLO DE ENTRADA(DENTRO DEL CODIGO) PARA UNA FUNCION EN R2: f = x**2 + y**4 +5*x*y
+		#EJEMPLO DE ENTRADA(DENTRO DEL CODIGO) PARA UNA FUNCION EN R3: f = 3*x*y + z**2 -4
 
-	if op2 == 2:
-		print("\nEl rotacional de la funcion es: ",fRot(iCeros(fT,len(dF)), dF))
+		x, y, z = sympy.symbols('x y z', real=True)
+		#f = 3*x*y + z**2 -4
+		f = x**2 + y**4 +5*x*y
+		#p = [1,1,1]
+		p = [1,2]
+		dF = []
+		v = [1,3,5]
+		fT = []
+		fEv = 0
 
-	if op2 == 3:
-		fDf(Df, dF)
+		if len(p) == 3:
+			dF2 = [x - p[0], y - p[1], z - p[2]]
+		else:
+			dF2 = [x - p[0], y - p[1]]
 
-	if op2 == 4:
-		pass
-		
+		print("\nSe trabaja con funcion f: ",f)
 
-#-------------------------------------------OPCION 9-------------------------------------
+		print("\n- Operaciones disponibles con la funcion vectorial:\n  \n  1. Gradiente de la Funcion\n  2. Plano Tangente a la funcion R3->R3 \n  3. Plano Tangente a la funcion R2->R3\n  4. Mayor tasa de cambio de la funcion\n  5. Tasa de cambio en direccion de un vector\n")
+		op2 = int(input("Escriba el numero de la operacion que desea realizar: "))
 
-#--------------------------------------------------------------------------------
+		if op2 == 1:
+			print("\nEl gradiente de la funcion es: ",fGrad(iCeros(dF, len(p)), f, 0))
 
-"""
-#METODO PARA LLENAR LOS VECTORES CON 0's CON LAS DIMENSIONES DADAS POR EL USUARIO
-arr = [[0] * eV for i in range(nV)]
+		if op2 == 2:
+			fT = [dFun(dF,p,f), dF2]
+			print("El plano tangente a la funcion es: ",pPunto(fT, len(dF), 0)," = 0")
 
-#ESTRUCTURA PARA LLENAR DE 0's UN VECTOR VACIO CON LA DIMENSION DADA POR EL USUSARIO
-for x in range(eV):
-	suma.append(0)
+		if op2 == 3:
+			fT = [dFun(dF,p,f), dF2]
+			print("El plano tangente a la funcion es z = ", eFun(fEv,f,p) + pPunto(fT, len(dF2), 0))
 
-#ESTRUCTURA QUE LLENA LOS VECTORES CON LOS DATOS DADOS POR EL USUARIO
-for n in range(nV):
-	print("Ingrese los valores del vector ",n+1,": \n")
-	for m in range(eV):
-		arr[n][m] = int(input("Valor: "))
-		print(arr[n])
+		if op2 == 4:
+			print("\nLa funcion crece mas rapido en la direccion: ",dFun(dF,p,f))
 
-for z in range(nV):
-	print("Vector ",z+1,": ",arr[z])
+		if op2 == 5:
+			fT = [dFun(dF,p,f), v]
+			print("\nLa tasa de cambio de la funcion f(x,y,z) en direccion del vector: ",v," es: ",pPunto(fT, len(v), 0))
 
-print("\nEl vector resultante es: ",sumav2(suma,arr,eV))
-print("\nEl producto interno es: ",pInterno(suma))
-"""
+	#-------------------------------------------OPCION 8-------------------------------------
+
+	if (op == 8):
+
+		x, y, z = sympy.symbols('x y z', real=True)
+		t = sympy.symbols('t', real=True)
+		sym = [x, y, z, t] 
+		dF = [3*x*y, 4*z*x**2, 5*z**3]
+		c = [3*t**2, 4*t, t**3]
+		f = 0
+		p = [1,1,1]
+		v = [1,3,5]
+		fT = []
+		x1 = len(dF) - 1
+		x2 = 0
+		Df = []
+
+		print("\nSe trabaja con funcion f: ",dF)
+
+		print("\n- Operaciones disponibles con la funcion vectorial:\n  \n  1. Divergencia de la Funcion\n  2. Rotacional de la funcion\n  3. Df de una funcion\n  4. Regla de la cadena\n")
+		op2 = int(input("Escriba el numero de la operacion que desea realizar: "))
+
+		if op2 == 1:
+			print("\nLa divergencia de la funcion es: ",fGrad(dF, f, 1))
+
+		if op2 == 2:
+			print("\nEl rotacional de la funcion es: ",fRot(iCeros(fT,len(dF)), dF))
+
+		if op2 == 3:
+			fDf(Df, dF)
+
+		if op2 == 4:
+			print("\nLa funcion compuesta f(g(t)) es: ", rCadena(dF))
+			print("\nLa derivada de la funcion f(g(t)) es: ", dCadena(dF))
+			
+
+	#-------------------------------------------OPCION 9-------------------------------------
+	if op == 9:
+		x, y, z = sympy.symbols('x y z', real=True)
+		t = sympy.symbols('t', real=True)
+		sym = [x, y, z, t] 
+		c = 3*t**2 + 4*t + t**3
+
+		print("\nSe va a trabajar con la curva: ", c)
+		print("\nLa integral de linea de la curva es: ",integrate(c,t))
 
